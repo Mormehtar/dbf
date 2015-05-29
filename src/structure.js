@@ -40,6 +40,9 @@ module.exports = function structure(data, meta) {
     // length of each record
     view.setUint16(10, bytesPerRecord, true);
 
+    //code page cp866
+    view.setUint8(29, 0xC9);
+
     // Terminator
     view.setInt8(32 + fieldDescLength - 1, 0x0D);
 
