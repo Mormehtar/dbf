@@ -52,7 +52,7 @@ module.exports = function structure(data, meta) {
         view.setInt8(32 + i * 32 + 11, f.type.charCodeAt(0));
         // field length
         view.setInt8(32 + i * 32 + 16, f.size);
-        if (f.type == 'N') view.setInt8(32 + i * 32 + 17, 0);
+        if (f.type == 'N') view.setInt8(32 + i * 32 + 17, f.precision || 0);
     });
 
     offset = fieldDescLength + 32;
@@ -81,7 +81,7 @@ module.exports = function structure(data, meta) {
                 // number
                 case 'N':
                     offset = lib.writeField(view, f.size,
-                        lib.lpad(val.toString(), f.size, ' ').substr(0, 18),
+                        lib.lpad(val.toString(), f.size, ' '),
                         offset);
                     break;
 
@@ -102,3 +102,4 @@ module.exports = function structure(data, meta) {
 
     return view;
 };
+
