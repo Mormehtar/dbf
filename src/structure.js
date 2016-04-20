@@ -3,7 +3,7 @@ var fieldSize = require('./fieldsize'),
     fields = require('./fields');
 
 var CODE_PAGES = {
-    'CP866': 0x26,
+    'CP866': 0x65,
     'CP1251': 0xC9,
     'UTF-8': 0x26
 };
@@ -47,7 +47,7 @@ module.exports = function structure(data, meta, options) {
     view.setUint16(10, bytesPerRecord, true);
 
     //code page cp866
-    view.setUint8(29, CODE_PAGES[opts.encoding] || 0x26);
+    view.setUint8(29, CODE_PAGES[opts.encoding] || CODE_PAGES.CP866);
 
     // Terminator
     view.setInt8(32 + fieldDescLength - 1, 0x0D);
