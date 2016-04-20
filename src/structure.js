@@ -2,13 +2,19 @@ var fieldSize = require('./fieldsize'),
     lib = require('./lib'),
     fields = require('./fields');
 
+var CODE_PAGES = {
+    'CP866': 0x26,
+    'CP1251': 0xC9,
+    'UTF-8': 0x26
+};
+
 /**
  * @param {Array} data
  * @param {Array} meta
  * @returns {Object} view
  */
-module.exports = function structure(data, meta) {
-
+module.exports = function structure(data, meta, options) {
+    var opts = options || {};
     var field_meta = meta || fields.multi(data),
         fieldDescLength = (32 * field_meta.length) + 1,
         bytesPerRecord = fields.bytesPer(field_meta), // deleted flag
@@ -41,7 +47,7 @@ module.exports = function structure(data, meta) {
     view.setUint16(10, bytesPerRecord, true);
 
     //code page cp866
-    view.setUint8(29, 0xC9);
+    view.setUint8(29, CODE_PAGES[opts.encoding] || 0x26);
 
     // Terminator
     view.setInt8(32 + fieldDescLength - 1, 0x0D);
